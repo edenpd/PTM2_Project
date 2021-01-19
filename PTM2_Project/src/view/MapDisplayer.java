@@ -67,7 +67,6 @@ public class MapDisplayer extends Canvas {
 		double currPositionX = planePosX;
 		double currPositionY = planePosY;
 		for (int i = 0; i < moves.length - 1; i++) {
-			// Image pathPhoto = new Image(new FileInputStream("./resources/circle.jpg"));
 			Image pathPhoto = new Image(getClass().getResourceAsStream("/images/circle.jpg"));
 
 			if (moves[i].equals("Up")) {
@@ -136,7 +135,6 @@ public class MapDisplayer extends Canvas {
 
 		planePosX = corX;
 		planePosY = corY;
-		// Image img = new Image(new FileInputStream("./resources/a.png"));
 		Image img = new Image(getClass().getResourceAsStream("/images/a.png"));
 
 		GraphicsContext gc = getGraphicsContext2D();
@@ -152,7 +150,6 @@ public class MapDisplayer extends Canvas {
 				Double lon = ConnectCommand.getFromServer("get /position/longitude-deg");
 				double x = (lon - datumPointX + cellDistance) / cellDistance;
 				double y = ((lat - datumPointY + cellDistance) / cellDistance) * -1;
-//				System.out.println("x: " + x + " y: " + y);
 			}
 		}, 1000, 250);
 	}
@@ -162,34 +159,31 @@ public class MapDisplayer extends Canvas {
 		int corY = (int) (posY / cellHeight);
 		this.destPointX = corX;
 		this.destPointY = corY;
-		try {
-//			Image img = new Image(new FileInputStream("./resources/destination.jpg"));
-			Image img = new Image(getClass().getResourceAsStream("/images/destination.jpg"));
+		Image img = new Image(getClass().getResourceAsStream("/images/destination.jpg"));
 
-			GraphicsContext gc = getGraphicsContext2D();
-			gc.drawImage(img, corX * cellWidth, corY * cellHeight, cellWidth, cellHeight); // draw the dest
-			if (numOfTimesEnterd >= 1) {
-				if (theServer != null && mss != null) {
-					theServer.close();
-					mss.stopServer();
-				}
-				reDraw();
-
-				mss = new MySerialServer(5403);
-				mss.start(5403, new MyClientHandler(this));
+		GraphicsContext gc = getGraphicsContext2D();
+		gc.drawImage(img, corX * cellWidth, corY * cellHeight, cellWidth, cellHeight); // draw the dest
+		if (numOfTimesEnterd >= 1) {
+			if (theServer != null && mss != null) {
 				try {
-					theServer = new Socket("127.0.0.1", 5403);
+					theServer.close();
 				} catch (IOException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				mss.stopServer();
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-//		}
-		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			reDraw();
+
+//			mss = new MySerialServer(5403);
+			MyClientHandler ch = new MyClientHandler(this);
+//			mss.start(5403, null);
+			try {
+				ch.handleClient();
+				theServer = new Socket("127.0.0.1", 5403);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

@@ -46,7 +46,7 @@ public class MySerialServer implements Server {
 		try {
 			Socket aClient = serverSoc.accept();
 			System.out.println("client is connected");
-			ch.handleClient();
+//			ch.handleClient();
 			aClient.close();
 			stopServer();
 			

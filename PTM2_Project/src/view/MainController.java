@@ -76,17 +76,11 @@ public class MainController implements Initializable {
 		throtlleBar.setValue(0);
 		autopilotButton.setToggleGroup(group);
 		manualButton.setToggleGroup(group);
-//		String colorValue = "radial-gradient(focus-angle 45deg, focus-distance 50%, " +
-//		        "center 50% 50%, radius 50%, white 0%, black 100%)";
-//		// Create the Radial Gradient       
-//		RadialGradient gradient = RadialGradient.valueOf(colorValue);
-//		smallCircle.setFill(gradient); 
 	}
 
 	public void LoadCSV() throws FileNotFoundException {
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Open map file");
-//		fc.setInitialDirectory(new File("./resources"));
 		FileChooser.ExtensionFilter extFilter1 = new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv");
 		fc.getExtensionFilters().add(extFilter1);
 		File chosen = fc.showOpenDialog(null);
@@ -195,9 +189,11 @@ public class MainController implements Initializable {
 		dialog.setResultConverter((ButtonType button) -> {
 			if (button == connecectBtn) {
 				MapDisplayer.numOfTimesEnterd++;
-				MySerialServer mss = new MySerialServer(5403);
-				mss.start(5403, new MyClientHandler(mapDis));
+//				MySerialServer mss = new MySerialServer(5403);
+				MyClientHandler ch = new MyClientHandler(mapDis);
+//				mss.start(5403, null);
 				try {
+					ch.handleClient();
 					Socket theServer = new Socket("127.0.0.1", 5403);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -217,10 +213,7 @@ public class MainController implements Initializable {
 				if (!script.isEmpty())
 					MyInterpreter.interpret(script.split("\n"));
 			}).start();
-//			new Thread(() -> {
-//				mapDis.drawAirplaneMoves();
-//			}).start();
-			
+
 		}
 	}
 
@@ -228,7 +221,6 @@ public class MainController implements Initializable {
 		if (autopilotButton.isSelected()) {
 			FileChooser fc = new FileChooser();
 			fc.setTitle("Open script file");
-//			fc.setInitialDirectory(new File("./resources"));
 			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("txt File (*.txt)", "*.txt");
 			fc.getExtensionFilters().add(extFilter);
 			File chosen = fc.showOpenDialog(null);
