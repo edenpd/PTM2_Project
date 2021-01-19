@@ -4,15 +4,15 @@ import interpreter.Interpreter;
 
 public abstract class Command {
 
-	Interpreter interpeter;
+	Interpreter interpreter;
 
 	public Command() {
-		this.interpeter = null;
+		this.interpreter = null;
 	}
 
 	public abstract int execute();
 
-	public void setInterpeter(Interpreter otherInterpeter) {
-		this.interpeter = otherInterpeter;
+	public void setInterpreter(Interpreter otherInterpeter) {
+		this.interpreter = otherInterpeter;
 	}
 }

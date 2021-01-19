@@ -25,20 +25,20 @@ public class ConditionParser extends Command {
 
 	@Override
 	public int execute() {
-		this.startIndexBlockOfTokens = this.interpeter.getIndexBlockOfTokens();
+		this.startIndexBlockOfTokens = this.interpreter.getIndexBlockOfTokens();
 		getCondition();
 
-		this.interpeter.setIndexBlockOfTokens(this.interpeter.getIndexBlockOfTokens() + 1);
-		this.interpeter.setIndexToken(0);
+		this.interpreter.setIndexBlockOfTokens(this.interpreter.getIndexBlockOfTokens() + 1);
+		this.interpreter.setIndexToken(0);
 
 		getCommands();
 		return 0;
 	}
 
 	private void getCondition() {
-		ArrayList<String[]> tokens = this.interpeter.getTokens();
-		int indexBlockOfTokens = this.interpeter.getIndexBlockOfTokens();
-		int indexToken = this.interpeter.getIndexToken() + 1;
+		ArrayList<String[]> tokens = this.interpreter.getTokens();
+		int indexBlockOfTokens = this.interpreter.getIndexBlockOfTokens();
+		int indexToken = this.interpreter.getIndexToken() + 1;
 		boolean check = true;
 
 		while (check == true) {
@@ -88,8 +88,8 @@ public class ConditionParser extends Command {
 	}
 
 	private void getCommands() {
-		ArrayList<String[]> tokens = this.interpeter.getTokens();
-		int indexBlockOfTokens = this.interpeter.getIndexBlockOfTokens();
+		ArrayList<String[]> tokens = this.interpreter.getTokens();
+		int indexBlockOfTokens = this.interpreter.getIndexBlockOfTokens();
 
 		while (true) {
 			if (tokens.get(indexBlockOfTokens)[0].equals("}")) {
@@ -102,8 +102,8 @@ public class ConditionParser extends Command {
 	}
 
 	protected boolean checkCondtion() {
-		double leftResult = ShuntingYardAlgorithm.execute(leftExpression, this.interpeter.getServerSymbolTable());
-		double rightResult = ShuntingYardAlgorithm.execute(rightExpression, this.interpeter.getServerSymbolTable());
+		double leftResult = ShuntingYardAlgorithm.execute(leftExpression, this.interpreter.getServerSymbolTable());
+		double rightResult = ShuntingYardAlgorithm.execute(rightExpression, this.interpreter.getServerSymbolTable());
 
 		switch (this.operator) {
 		case ">":
@@ -128,12 +128,12 @@ public class ConditionParser extends Command {
 		for (int indexBlockOfTokens = 0; indexBlockOfTokens < this.commandList.size(); indexBlockOfTokens++) {
 			// Loops at words of token
 			for (int indexToken = 0; indexToken < this.commandList.get(indexBlockOfTokens).length; indexToken++) {
-				Command command = this.interpeter.getCommandFactory()
+				Command command = this.interpreter.getCommandFactory()
 						.getCommand(this.commandList.get(indexBlockOfTokens)[indexToken]);
 				if (command != null) {
-					this.interpeter.setIndexBlockOfTokens(indexBlockOfTokens + this.startIndexBlockOfTokens + 1);
-					this.interpeter.setIndexToken(indexToken);
-					command.setInterpeter(this.interpeter);
+					this.interpreter.setIndexBlockOfTokens(indexBlockOfTokens + this.startIndexBlockOfTokens + 1);
+					this.interpreter.setIndexToken(indexToken);
+					command.setInterpreter(this.interpreter);
 					new ExpressionCommand(command).calculate();
 				}
 			}

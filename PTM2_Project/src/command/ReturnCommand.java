@@ -12,18 +12,18 @@ public class ReturnCommand extends Command {
 
 	@Override
 	public int execute() {
-		int indexToken = this.interpeter.getIndexToken();
-		String[] block = this.interpeter.getTokens().get(this.interpeter.getIndexBlockOfTokens());
+		int indexToken = this.interpreter.getIndexToken();
+		String[] block = this.interpreter.getTokens().get(this.interpreter.getIndexBlockOfTokens());
 		ArrayList<String> expression = new ArrayList<String>();
 
 		for (int i = (indexToken + 1); i < block.length; i++) {
 			expression.add(block[i]);
 		}
 
-		this.interpeter
-				.setReturnedValue(ShuntingYardAlgorithm.execute(expression, this.interpeter.getServerSymbolTable()));
+		this.interpreter
+				.setReturnedValue(ShuntingYardAlgorithm.execute(expression, this.interpreter.getServerSymbolTable()));
 
-		this.interpeter.setIndexToken(expression.size() + this.interpeter.getIndexToken());
+		this.interpreter.setIndexToken(expression.size() + this.interpreter.getIndexToken());
 
 		return 0;
 	}

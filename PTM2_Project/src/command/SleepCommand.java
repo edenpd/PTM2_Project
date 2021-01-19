@@ -12,15 +12,15 @@ public class SleepCommand extends Command {
 
 	@Override
 	public int execute() {
-		int indexToken = this.interpeter.getIndexToken();
-		String[] block = this.interpeter.getTokens().get(this.interpeter.getIndexBlockOfTokens());
+		int indexToken = this.interpreter.getIndexToken();
+		String[] block = this.interpreter.getTokens().get(this.interpreter.getIndexBlockOfTokens());
 		ArrayList<String> expression = new ArrayList<String>();
 
 		for (int i = (indexToken + 1); i < block.length; i++) {
 			expression.add(block[i]);
 		}
 
-		int timeToSleep = (int) ShuntingYardAlgorithm.execute(expression, this.interpeter.getServerSymbolTable());
+		int timeToSleep = (int) ShuntingYardAlgorithm.execute(expression, this.interpreter.getServerSymbolTable());
 
 		try {
 			Thread.sleep(timeToSleep);
@@ -28,7 +28,7 @@ public class SleepCommand extends Command {
 			e.printStackTrace();
 		}
 
-		this.interpeter.setIndexToken(expression.size() + this.interpeter.getIndexToken());
+		this.interpreter.setIndexToken(expression.size() + this.interpreter.getIndexToken());
 
 		return 0;
 	}

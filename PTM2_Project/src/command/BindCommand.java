@@ -13,17 +13,17 @@ public class BindCommand extends Command {
 
 	@Override
 	public int execute() {
-		ArrayList<String[]> tokens = this.interpeter.getTokens();
-		int indexBlockOfTokens = this.interpeter.getIndexBlockOfTokens();
-		int indexToken = this.interpeter.getIndexToken();
+		ArrayList<String[]> tokens = this.interpreter.getTokens();
+		int indexBlockOfTokens = this.interpreter.getIndexBlockOfTokens();
+		int indexToken = this.interpreter.getIndexToken();
 		String variableSimulatorName = tokens.get(indexBlockOfTokens)[indexToken + 1];
 		String variableServerName = tokens.get(indexBlockOfTokens)[indexToken - 2];
 
-		SimulatorVariable simulatorVariable = this.interpeter.getSimulatorSymbolTable().get(variableSimulatorName);
+		SimulatorVariable simulatorVariable = this.interpreter.getSimulatorSymbolTable().get(variableSimulatorName);
 		Variable serverVariable = null;
 
-		if (this.interpeter.getServerSymbolTable().containsKey(variableServerName) == true) {
-			serverVariable = this.interpeter.getServerSymbolTable().get(variableServerName);
+		if (this.interpreter.getServerSymbolTable().containsKey(variableServerName) == true) {
+			serverVariable = this.interpreter.getServerSymbolTable().get(variableServerName);
 		} else {
 			System.out.println("Error occured...There is not variable with the name: " + variableServerName + "...");
 			return 0;
@@ -39,7 +39,7 @@ public class BindCommand extends Command {
 
 		serverVariable.setValue(simulatorVariable.getValue());
 
-		this.interpeter.setIndexToken(indexToken + 1);
+		this.interpreter.setIndexToken(indexToken + 1);
 		return 0;
 	}
 }

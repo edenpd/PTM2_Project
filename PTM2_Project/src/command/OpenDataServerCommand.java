@@ -43,7 +43,7 @@ public class OpenDataServerCommand extends Command {
 		try {
 			while (isConnected == false) {
 				serverSocket = new ServerSocket(port);
-				serverSocket.setSoTimeout(1000);
+//				serverSocket.setSoTimeout(1000);
 				clientSocket = serverSocket.accept();
 				inputFromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				isConnected = true;
@@ -94,7 +94,7 @@ public class OpenDataServerCommand extends Command {
 						String simulatorVariableName = variblesNames[i];
 						double simulatorVariableValue = Double.parseDouble(variblesValues[i]);
 
-						SimulatorVariable simulatorVariable = this.interpeter.getSimulatorSymbolTable()
+						SimulatorVariable simulatorVariable = this.interpreter.getSimulatorSymbolTable()
 								.get(simulatorVariableName);
 
 						if (simulatorVariable != null) {
@@ -102,7 +102,7 @@ public class OpenDataServerCommand extends Command {
 						} else {
 							simulatorVariable = new SimulatorVariable(simulatorVariableValue, simulatorVariableName);
 							simulatorVariable.setValue(simulatorVariableValue);
-							this.interpeter.getSimulatorSymbolTable().put(simulatorVariableName, simulatorVariable);
+							this.interpreter.getSimulatorSymbolTable().put(simulatorVariableName, simulatorVariable);
 						}
 					}
 
@@ -117,9 +117,9 @@ public class OpenDataServerCommand extends Command {
 	}
 
 	private void calculateExpression() {
-		ArrayList<String[]> tokens = this.interpeter.getTokens();
-		int indexBlockOfTokens = this.interpeter.getIndexBlockOfTokens();
-		int indexToken = this.interpeter.getIndexToken() + 1;
+		ArrayList<String[]> tokens = this.interpreter.getTokens();
+		int indexBlockOfTokens = this.interpreter.getIndexBlockOfTokens();
+		int indexToken = this.interpreter.getIndexToken() + 1;
 		int lengthOfBlock = tokens.get(indexBlockOfTokens).length;
 		String[] str = tokens.get(indexBlockOfTokens);
 		ArrayList<String> list = new ArrayList<String>();
@@ -149,9 +149,9 @@ public class OpenDataServerCommand extends Command {
 			list.add(str[indexToken]);
 		}
 
-		this.latency = (int) ShuntingYardAlgorithm.execute(list, this.interpeter.getServerSymbolTable());
+		this.latency = (int) ShuntingYardAlgorithm.execute(list, this.interpreter.getServerSymbolTable());
 
-		this.interpeter.setIndexToken(str.length);
+		this.interpreter.setIndexToken(str.length);
 	}
 
 }

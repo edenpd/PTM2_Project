@@ -14,8 +14,8 @@ public class IfCommand extends ConditionParser {
 			executeListOfCommands();
 		}
 
-		this.interpeter.setIndexBlockOfTokens(this.startIndexBlockOfTokens + this.commandList.size());
-		this.interpeter.setIndexToken(0);
+		this.interpreter.setIndexBlockOfTokens(this.startIndexBlockOfTokens + this.commandList.size());
+		this.interpreter.setIndexToken(0);
 		return 0;
 	}
 

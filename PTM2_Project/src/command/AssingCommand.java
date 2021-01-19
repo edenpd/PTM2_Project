@@ -13,9 +13,9 @@ public class AssingCommand extends Command {
 
 	@Override
 	public int execute() {
-		ArrayList<String[]> tokens = this.interpeter.getTokens();
-		int indexBlockOfTokens = this.interpeter.getIndexBlockOfTokens();
-		int indexToken = this.interpeter.getIndexToken();
+		ArrayList<String[]> tokens = this.interpreter.getTokens();
+		int indexBlockOfTokens = this.interpreter.getIndexBlockOfTokens();
+		int indexToken = this.interpreter.getIndexToken();
 		String variableServerName = tokens.get(indexBlockOfTokens)[indexToken - 1];
 
 		if (tokens.get(indexBlockOfTokens)[indexToken + 1].equals("bind")) {
@@ -23,23 +23,23 @@ public class AssingCommand extends Command {
 		}
 
 		ArrayList<String> expression = new ArrayList<String>();
-		String[] block = this.interpeter.getTokens().get(this.interpeter.getIndexBlockOfTokens());
+		String[] block = this.interpreter.getTokens().get(this.interpreter.getIndexBlockOfTokens());
 
 		for (int i = (indexToken + 1); i < block.length; i++) {
 			expression.add(block[i]);
 		}
 
-		double result = ShuntingYardAlgorithm.execute(expression, this.interpeter.getServerSymbolTable());
+		double result = ShuntingYardAlgorithm.execute(expression, this.interpreter.getServerSymbolTable());
 
-		if (this.interpeter.getServerSymbolTable().containsKey(variableServerName) == true) {
-			Variable serverVariable = this.interpeter.getServerSymbolTable().get(variableServerName);
+		if (this.interpreter.getServerSymbolTable().containsKey(variableServerName) == true) {
+			Variable serverVariable = this.interpreter.getServerSymbolTable().get(variableServerName);
 			serverVariable.setValue(result);
-			this.interpeter.getServerSymbolTable().put(variableServerName, serverVariable);
+			this.interpreter.getServerSymbolTable().put(variableServerName, serverVariable);
 		} else {
 			System.out.println("Error occured...There is not variable with the name: " + variableServerName + "...");
 		}
 
-		this.interpeter.setIndexToken(expression.size() + this.interpeter.getIndexToken());
+		this.interpreter.setIndexToken(expression.size() + this.interpreter.getIndexToken());
 
 		return 0;
 	}
